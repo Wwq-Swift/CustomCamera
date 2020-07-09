@@ -49,18 +49,24 @@ class ViewController: UIViewController {
     
     func updateFilter(index: Int) {
         currentIndex = index
-        filterView?.removeFromSuperview()
-        filterView = RenderView(frame: CGRect(x: 0, y: 100, width: 300, height: 300))
-        view.addSubview(filterView!)
+//        filterView?.removeFromSuperview()
+//        filterView = RenderView(frame: CGRect(x: 0, y: 100, width: 300, height: 300))
+//        view.addSubview(filterView!)
         guard let videoCamera = videoCamera, let view = self.filterView  else {
             return
         }
         videoCamera.removeAllTargets()
 //        videoCamera.stopCapture()
         
+        let ddd = filterOperations[index].filter
+//        videoCamera --> ddd
+        videoCamera.addTarget(ddd)
         
-        videoCamera.addTarget(filterOperations[index].filter)
-        filterOperations[index].filter.addTarget(view)
+        ddd.addTarget(view)
+        
+        
+//        videoCamera.addTarget(filterOperations[index].filter)
+//        filterOperations[index].filter.addTarget(view)
          //--> view
         
         
@@ -154,7 +160,7 @@ class ViewController: UIViewController {
                 f2.contrast = 0.3
 
                 
-                videoCamera --> blendFilter   ///--> blendFilter --> outputView
+                videoCamera --> blendFilter  ///--> blendFilter --> outputView
                 //                    camera --> castFilter --> blendFilter
                 //
                 //                    return blendFilter
